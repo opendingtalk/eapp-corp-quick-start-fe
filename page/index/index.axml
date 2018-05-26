@@ -1,0 +1,6 @@
+<view>
+    <button type="primary" size="" onTap=""> 自动免登并获取用户信息 </button>
+    <view class="row">CorpId:{{corpId}}</view>
+    <view class="row">AuthCode:{{authCode}}</view>
+    <view class="row">userId:{{userId}}</view>
+</view>
