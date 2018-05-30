@@ -1,6 +1,6 @@
 let app = getApp();
 //替换成开发者后台设置的安全域名
-let url = "http://30.xxx.xx.54:8787";
+let url = "http://xxx.xxx.xxx.xxx:8787";
 
 Page({
     data:{
