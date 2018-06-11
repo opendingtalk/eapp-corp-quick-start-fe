@@ -1,6 +1,10 @@
 let app = getApp();
 //替换成开发者后台设置的安全域名
-let url = "http://xxx.xxx.xxx.xxx:8787";
+let url = "http://127.0.0.1:8080";
+
+//内网穿透工具介绍:
+// https://open-doc.dingtalk.com/microapp/debug/ucof2g
+//let url = "http://your_sub_domain.vaiwan.com/";
 
 Page({
     data:{
@@ -16,46 +20,44 @@ Page({
             corpId: app.globalData.corpId
         })
 
-        if(dd.getCorpAuthCode){
-            dd.alert({
-                content:'dd.getCorpAuthCode'
-            })
-            dd.getCorpAuthCode({
-                success:(res)=>{
-                    _this.setData({
-                        authCode:res.authCode
-                    })
+         
+        dd.getCorpAuthCode({
+            success:(res)=>{
+                _this.setData({
+                    authCode:res.authCode
+                })
+                
+                dd.httpRequest({
+                    url: url+'/login',
+                    method: 'POST',
+                    data: {
+                        authCode: res.authCode,
+                        corpId:app.globalData.corpId,
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        console.log('success----',res)
+                        let userId = res.data.result.userId;
+                        _this.setData({
+                            userId:userId
+                        })
+                    },
+                    fail: function(res) {
+                        console.log("httpRequestFail---",res)
+                       dd.alert({content: JSON.stringify(res)});
+                    },
+                    complete: function(res) {
+                        dd.hideLoading();
+                    }
                     
-                    dd.httpRequest({
-                        url: url+'/login',
-                        method: 'POST',
-                        data: {
-                            authCode: res.authCode,
-                            corpId:app.globalData.corpId,
-                        },
-                        dataType: 'json',
-                        success: function(res) {
-                            let userId = res.data.userId;
-                            _this.setData({
-                                userId:userId
-                            })
-                        },
-                        fail: function(res) {
-                            dd.alert({content: 'fail'});
-                        },
-                        complete: function(res) {
-                            dd.hideLoading();
-                            //my.alert({content: 'complete'});
-                        }
-                        
-                    });
-                },
-                fail: (err)=>{
-                    dd.alert({
-                        content: JSON.stringify(err)
-                    })
-                }
-            })
-        }
+                });
+            },
+            fail: (err)=>{
+                dd.alert({
+                    content: JSON.stringify(err)
+                })
+            }
+        })
+        
     }
 })
