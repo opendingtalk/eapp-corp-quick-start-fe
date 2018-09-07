@@ -1,6 +1,11 @@
 <view>
-    <button type="primary" size="" onTap=""> 自动免登并获取用户信息 </button>
+    <button type="primary" size="" onTap="loginSystem"> 点击登录 </button>
     <view class="row">CorpId:{{corpId}}</view>
-    <view class="row">AuthCode:{{authCode}}</view>
-    <view class="row">userId:{{userId}}</view>
+
+    <view hidden="{{hideList}}">
+        <view class="row">AuthCode:{{authCode}}</view>
+        <view class="row">userId:{{userId}}</view>
+        <view class="row">name:{{userName}}</view>
+    </view>
+    
 </view>
